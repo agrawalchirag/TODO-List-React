@@ -9,12 +9,9 @@ class Login extends React.Component {
       value: '',
       isSubmit: false
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({ value: event.target.value });
   }
 
@@ -25,21 +22,43 @@ class Login extends React.Component {
   }
 
   render() {
+
     if (this.state.isSubmit === true) {
-      return <Redirect to='/todolist' />
+      return <Redirect to='/main' />
     }
+
     return (
       <div className="login-division">
         <h1 className="heading">Login Page</h1>
-        <form onSubmit={this.handleSubmit} align="center">
+        <form
+          onSubmit={this.handleSubmit}
+          align="center">
           <fieldset>
             <legend>LOGIN</legend><br />
             Email:<br />
-            <input className="input-field" type="text" value={this.state.email} onChange={this.handleChange} required></input><br />
+            <input
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              className="input-field"
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              required>
+            </input>
+            <br />
             <br />
             Password:<br />
-            <input className="input-field" type="text" value={this.state.password} onChange={this.handleChange} required></input><br /><br />
-            <input type="submit" className="button"></input>
+            <input
+              className="input-field"
+              type="password" value={this.state.password}
+              onChange={this.handleChange}
+              required>
+            </input>
+            <br />
+            <br />
+            <input
+              type="submit"
+              className="button">
+            </input>
           </fieldset>
         </form>
       </div>

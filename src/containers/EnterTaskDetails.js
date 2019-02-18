@@ -1,79 +1,49 @@
 import React from "react";
 import './style.css';
 import DatePicker from 'react-date-picker';
-import TaskTable from "./TaskTable";
 
-let task = {
-  userInput: ``,
-  date: ``
-}
 
 class EnterTaskDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInput: '',
-      date: new Date(),
-      taskDetails: [],
-      isEditing: false,
-    }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.dateChange = this.dateChange.bind(this);
-    this.changeUserInput = this.changeUserInput.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+
+
+  dateChange = (date) => {
+    this.props.dateChange(date);
   }
 
-  dateChange(date) {
-    this.setState({
-      date
-    })
-  }
-
-  changeUserInput(e) {
-    this.setState({
-      userInput: e.target.value
-    });
-  }
-
-  componentDidUpdate() {
-    task = {}
+  changeUserInput = (userInput) => {
+    this.props.changeUserInput(userInput);
   }
 
   handleSubmit = () => {
-    task.userInput = this.state.userInput;
-    task.date = this.state.date;
-    this.setState(() => ({
-      taskDetails: [...this.state.taskDetails, task],
-      //array.push(task)
-      userInput: '',
-    }))
-  }
-
-  handleDelete(i) {
-    this.setState((id) => ({
-      taskDetails: id.taskDetails.filter(el => el !== i)
-    }));
+    this.props.handleSubmit();
   }
 
   render() {
     return (
       <div className="todolist-division split left">
+        <h1 className="heading">Enter Task Details</h1>
         Select Date:<br />
         <DatePicker
           calendarClassName="calender"
           onChange={this.dateChange}
-          value={this.state.date}
+          value={this.props.date}
           required
         />
-        <input className="input-task"
+        <input
+          className="input-task"
           placeholder="Enter task"
           onChange={this.changeUserInput}
-          value={this.state.userInput}
-          type="text" required/>
-        <button className="button" onClick={this.handleSubmit}>Add Task</button>
-        <TaskTable val={this.state.taskDetails} handleDelete={this.handleDelete} />
+          value={this.props.userInput}
+          type="text" required
+        />
+        <button
+          className="button"
+          onClick={this.handleSubmit}>
+          {this.props.buttonName}
+        </button>
       </div>
     )
   }
 }
+
 export default EnterTaskDetails;

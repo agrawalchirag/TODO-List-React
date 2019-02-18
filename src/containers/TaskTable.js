@@ -2,18 +2,13 @@ import React from 'react';
 import './style.css'
 
 class TaskTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleUpdate = this.handleUpdate.bind(this);
-  };
 
-
-  handleDelete(i) {
+  handleDelete = (i) => {
     this.props.handleDelete(i);
   }
 
-  handleUpdate() {
-
+  handleUpdate = (e, i) => {
+    this.props.handleUpdate(e, i);
   }
 
   render() {
@@ -28,7 +23,6 @@ class TaskTable extends React.Component {
               <th>Update</th>
               <th>Delete</th>
             </tr>
-
             {this.props.val.map((e, i) =>
               <tr key={i}>
                 <td>{e.date.toDateString()}</td>
@@ -43,6 +37,5 @@ class TaskTable extends React.Component {
     )
   }
 }
+
 export default TaskTable;
-
-

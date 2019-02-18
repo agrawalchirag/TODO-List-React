@@ -1,14 +1,14 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './Login';
-import EnterTaskDetails from './EnterTaskDetails';
+import Main from './Main';
 
 const RouterHub = () => (
   <Router>
-      <Switch>
-        <Route path="/" exact component={Login} />
-        <Route exact path="/todolist" component={EnterTaskDetails} />
-      </Switch>
+    <Switch>
+      <Route path="/" exact component={Login} />
+      <Route exact path="/main" component={Main} />
+    </Switch>
   </Router>
 );
 
