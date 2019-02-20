@@ -1,64 +1,68 @@
 import React from 'react';
-import EnterTaskDetails from './EnterTaskDetails';
-import TaskTable from './TaskTable';
-
-let task = {
-  userInput: ``,
-  date: ``
-}
+import EnterTaskDetails from '../presentational/EnterTaskDetails';
+import TaskTable from '../presentational/TaskTable';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       taskDetails: [],
       userInput: '',
       buttonName: `Add Task`,
       date: new Date(),
+      index: -1,
     }
   }
 
-  dateChange = (date) => {
+  changeDateUserInput = (inputkey, value) => {
     this.setState({
-      date
+      [inputkey]: value
     })
   }
 
-  changeUserInput = (e) => {
-    this.setState({
-      userInput: e.target.value
-    });
-  }
-
-  handleDelete = (i) => {
-    this.setState((id) => ({
-      taskDetails: id.taskDetails.filter(el => el !== i)
+  handleDelete = (index) => {
+    this.setState((prevState) => ({
+      taskDetails: prevState.taskDetails.filter(el => el !== this.state.taskDetails[index])
     }));
   }
 
-  handleUpdate = (e, i) => {
-    if (this.state.buttonName === `Add Task`) {
+  handleUpdate = (index) => {
+    if (this.state.index === -1) {
       this.setState({
         buttonName: `Update Task`,
-        userInput: e.userInput
+        userInput: this.state.taskDetails[index].userInput,
+        date: this.state.taskDetails[index].date,
+        index: index,
       })
-      this.handleDelete(e);
     }
   }
 
-  componentDidUpdate() {
-    task = {}
-  }
-
   handleSubmit = () => {
+    const task = {
+      userInput: this.state.userInput,
+      date: this.state.date
+    }
     if (this.state.userInput.length > 0) {
-      task.userInput = this.state.userInput;
-      task.date = this.state.date;
-      this.setState(() => ({
-        buttonName: `Add Task`,
-        taskDetails: [...this.state.taskDetails, task],
-        userInput: '',
-      }))
+      if (this.state.index === -1) {
+        this.setState({
+          buttonName: `Add Task`,
+          taskDetails: [...this.state.taskDetails, task],
+          userInput: '',
+          date: new Date()
+        })
+      }
+      else {
+        let prev = this.state.taskDetails;
+        prev[this.state.index] = task
+        this.setState({
+          buttonName: `Add Task`,
+          taskDetails: prev,
+          userInput: '',
+          date: new Date(),
+          index: -1
+        })
+      }
     }
     else {
       window.alert("Enter Task")
@@ -70,15 +74,15 @@ class Main extends React.Component {
       <div>
         <EnterTaskDetails
           handleSubmit={this.handleSubmit}
-          changeUserInput={this.changeUserInput}
+          changeDateUserInput={this.changeDateUserInput}
           userInput={this.state.userInput}
           date={this.state.date}
-          dateChange={this.dateChange}
           buttonName={this.state.buttonName} />
         <TaskTable
           handleDelete={this.handleDelete}
           handleUpdate={this.handleUpdate}
-          val={this.state.taskDetails}
+          taskDetails={this.state.taskDetails}
+
         />
       </div>
     )

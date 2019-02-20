@@ -1,18 +1,23 @@
 import React from "react";
-import './style.css';
+import '../presentational/style.css';
 import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      email: '',
+      password: '',
       isSubmit: false
     };
   }
 
-  handleChange = (event) => {
-    this.setState({ value: event.target.value });
+  handleChangeEmail = (event) => {
+    this.setState({ email: event.target.value });
+  }
+
+  handleChangePassword = (event) => {
+    this.setState({ password: event.target.value });
   }
 
   handleSubmit = () => {
@@ -22,7 +27,6 @@ class Login extends React.Component {
   }
 
   render() {
-
     if (this.state.isSubmit === true) {
       return <Redirect to='/main' />
     }
@@ -41,7 +45,7 @@ class Login extends React.Component {
               className="input-field"
               type="email"
               value={this.state.email}
-              onChange={this.handleChange}
+              onChange={this.handleChangeEmail}
               required>
             </input>
             <br />
@@ -49,8 +53,9 @@ class Login extends React.Component {
             Password:<br />
             <input
               className="input-field"
-              type="password" value={this.state.password}
-              onChange={this.handleChange}
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChangePassword}
               required>
             </input>
             <br />
@@ -67,3 +72,4 @@ class Login extends React.Component {
 }
 
 export default Login;
+
